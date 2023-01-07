@@ -20,14 +20,22 @@ module Cutting
     end
 
     def main
+      setup
+
       show
       until closing?
         draw
+
         swap_buffers
         GLFW.poll_events
       end
       GLFW.terminate
     end
+
+    protected
+
+    attr_reader :width
+    attr_reader :height
 
     def setup
     end
@@ -53,10 +61,8 @@ module Cutting
       GL.End()
     end
 
-    private
 
-    attr_reader :width
-    attr_reader :height
+    private
 
     def init_hints
       GLFW::Window.default_hints
@@ -76,7 +82,11 @@ module Cutting
       GL.load_lib
 
       GL.Viewport(0, 0, width, height)
-      GL.ClearColor(0.1, 0.1, 0.2, 1.0)
+      GL.ClearColor(1.0, 1.0, 1.0, 1.0)
+      
+      GL.Clear(GL::COLOR_BUFFER_BIT)
+      swap_buffers
+      GL.Clear(GL::COLOR_BUFFER_BIT)
     end
 
     def init_callbacks
