@@ -10,3 +10,5 @@ gem "rake", "~> 13.0"
 gem "rubocop", "~> 1.21"
 
 gem "opengl-bindings2", "~> 2.0"
+
+gem "glfw", "~> 3.3"

@@ -7,6 +7,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
+    glfw (3.3.2.0)
     json (2.6.3)
     opengl-bindings2 (2.0.1)
     parallel (1.22.1)
@@ -36,6 +37,7 @@ PLATFORMS
 
 DEPENDENCIES
   cutting!
+  glfw (~> 3.3)
   opengl-bindings2 (~> 2.0)
   rake (~> 13.0)
   rubocop (~> 1.21)
