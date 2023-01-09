@@ -11,10 +11,9 @@ module Cutting
     SQUARE = :square
     PROJECT = :project
     ROUND = :round
-
     MITER = :miter
     BEVEL = :bevel
-    ROUND = :round
+
     ### Color
     RGB = :rgb
     HSB = :hsb

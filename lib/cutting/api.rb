@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'constants'
+
 module Cutting
   module Api
     ### Shape
@@ -12,6 +14,18 @@ module Cutting
 
     # Draws a circle to the screen
     def circle(x, y, radius)
+      GL.Begin(GL::TRIANGLE_FAN)
+      GL.Color4f(*context.fill)
+      subdivision = 360
+      subdivision.times do |index|
+        theta = 2.0 * Math::PI * index / subdivision
+
+        cx = radius * Math.cos(theta)
+        cy = radius * Math.sin(theta)
+
+        GL.Vertex3f(x + cx, y + cy, 0.0)
+      end
+      GL.End()
     end
 
     # Draws an ellipse (oval) in the display window
@@ -29,6 +43,7 @@ module Cutting
     # A quad is a quadrilateral, a four sided polygon
     def quad(x1, y1, x2, y2, x3, y3, x4, y4)
       GL.Begin(GL::QUADS)
+      GL.Color4f(*context.fill)
       GL.Vertex3f(x1, y1, 0.0)
       GL.Vertex3f(x2, y2, 0.0)
       GL.Vertex3f(x3, y3, 0.0)
@@ -42,42 +57,40 @@ module Cutting
 
     # Draws a square to the screen
     def square(x, y, side)
-      case context.rectMode
-      when Constants.CORNER
-      when Constants.CORNERS
-        x1 = x
-        y1 = y
-        x2 = x + side
-        y2 = y
-        x3 = x + side
-        y3 = y + side
-        x4 = x
-        y4 = y + side
-      when Constants.RADIUS
-        radius = side
-        x1 = x - radius
-        y1 = y - radius
-        x2 = x + radius
-        y2 = y - radius
-        x3 = x + radius
-        y3 = y + radius
-        x4 = x - radius
-        y4 = y + radius
-      when Constants.CENTER
-        radius = side / 2
-        x1 = x - radius
-        y1 = y - radius
-        x2 = x + radius
-        y2 = y - radius
-        x3 = x + radius
-        y3 = y + radius
-        x4 = x - radius
-        y4 = y + radius
-      else
-        raise ArgumentError, "unknown rectMode #{context.rectMode}"
-      end
+      x1, y1, x2, y2, x3, y3, x4, y4 =
+        case context.rect_mode
+        when Constants::CORNER, Constants::CORNERS
+          [x, y, x + side, y, x + side, y + side, x, y + side]
+        when Constants::RADIUS
+          radius = side
+          [
+            x - radius,
+            y - radius,
+            x + radius,
+            y - radius,
+            x + radius,
+            y + radius,
+            x - radius,
+            y + radius
+          ]
+        when Constants::CENTER
+          radius = side / 2
+          [
+            x - radius,
+            y - radius,
+            x + radius,
+            y - radius,
+            x + radius,
+            y + radius,
+            x - radius,
+            y + radius
+          ]
+        else
+          raise ArgumentError, "unknown rectMode #{context.rect_mode}"
+        end
 
       GL.Begin(GL::QUADS)
+      GL.Color4f(*context.fill)
       GL.Vertex3f(x1, y1, 0.0)
       GL.Vertex3f(x2, y2, 0.0)
       GL.Vertex3f(x3, y3, 0.0)
@@ -88,6 +101,7 @@ module Cutting
     # A triangle is a plane created by connecting three points
     def triangle(x1, y1, x2, y2, x3, y3)
       GL.Begin(GL::TRIANGLES)
+      GL.Color4f(*context.fill)
       GL.Vertex3f(x1, y1, 0.0)
       GL.Vertex3f(x2, y2, 0.0)
       GL.Vertex3f(x3, y3, 0.0)
@@ -155,11 +169,16 @@ module Cutting
     end
 
     # Sets the color used for the background of the Processing window
-    def background(c1, c2 = nil, c3 = nil, cA = nil)
+    def background(c1, c2 = nil, c3 = nil)
+      context.background = context.normalize_color(c1, c2, c3)
+      GL.ClearColor(*context.background)
+
+      clear()
     end
 
     # Clears the pixels within a buffer
     def clear()
+      GL.Clear(GL::COLOR_BUFFER_BIT)
     end
 
     # Changes the way Processing interprets color data
@@ -167,19 +186,23 @@ module Cutting
     end
 
     # Sets the color used to fill shapes
-    def fill(c1, c2 = nil, c3 = nil, cA = nil)
+    def fill(c1, c2 = 0.0, c3 = 0.0, cA = context.max_alpha)
+      context.fill = context.normalize_color(c1, c2, c3, cA)
     end
 
     # Disables filling geometry
     def noFill()
+      context.fill = nil
     end
 
     # Disables drawing the stroke (outline)
     def noStroke()
+      context.stroke = nil
     end
 
     # Sets the color used to draw lines and borders around shapes
-    def stroke(c1, c2 = nil, c3 = nil, cA = nil)
+    def stroke(c1, c2 = 0.0, c3 = 0.0, cA = context.max_alpha)
+      context.stroke = context.normalize_color(c1, c2, c3, cA)
     end
   end
 end

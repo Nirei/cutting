@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
-require "glfw"
-require "opengl"
+require 'glfw'
+require 'opengl'
+require_relative 'context'
 
 module Cutting
   class Window < GLFW::Window
     def initialize(width, height, title)
       @width = width
       @height = height
+      @context = Context.new
 
       GLFW.init
       init_hints
@@ -24,6 +26,11 @@ module Cutting
 
       show
       until closing?
+        GL.MatrixMode(GL::PROJECTION)
+        GL.LoadIdentity()
+        GL.Ortho(0.0, width, 0, height, 1.0, -1.0)
+        GL.MatrixMode(GL::MODELVIEW)
+
         draw
 
         swap_buffers
@@ -34,6 +41,7 @@ module Cutting
 
     protected
 
+    attr_reader :context
     attr_reader :width
     attr_reader :height
 
@@ -41,26 +49,25 @@ module Cutting
     end
 
     def draw
-      GL.Clear(GL::COLOR_BUFFER_BIT)
-      GL.MatrixMode(GL::PROJECTION)
-      GL.LoadIdentity()
-      ratio = width.to_f / height.to_f
-      GL.Ortho(-ratio, ratio, -1.0, 1.0, 1.0, -1.0)
-      GL.MatrixMode(GL::MODELVIEW)
+      # GL.Clear(GL::COLOR_BUFFER_BIT)
+      # GL.MatrixMode(GL::PROJECTION)
+      # GL.LoadIdentity()
+      # ratio = width.to_f / height.to_f
+      # GL.Ortho(-ratio, ratio, -1.0, 1.0, 1.0, -1.0)
+      # GL.MatrixMode(GL::MODELVIEW)
 
-      GL.LoadIdentity()
-      GL.Rotatef(GLFW.time * 50.0, 0.0, 0.0, 1.0)
+      # GL.LoadIdentity()
+      # GL.Rotatef(GLFW.time * 50.0, 0.0, 0.0, 1.0)
 
-      GL.Begin(GL::TRIANGLES)
-      GL.Color3f(1.0, 0.0, 0.0)
-      GL.Vertex3f(-0.6, -0.4, 0.0)
-      GL.Color3f(0.0, 1.0, 0.0)
-      GL.Vertex3f(0.6, -0.4, 0.0)
-      GL.Color3f(0.0, 0.0, 1.0)
-      GL.Vertex3f(0.0, 0.6, 0.0)
-      GL.End()
+      # GL.Begin(GL::TRIANGLES)
+      # GL.Color3f(1.0, 0.0, 0.0)
+      # GL.Vertex3f(-0.6, -0.4, 0.0)
+      # GL.Color3f(0.0, 1.0, 0.0)
+      # GL.Vertex3f(0.6, -0.4, 0.0)
+      # GL.Color3f(0.0, 0.0, 1.0)
+      # GL.Vertex3f(0.0, 0.6, 0.0)
+      # GL.End()
     end
-
 
     private
 
@@ -71,6 +78,7 @@ module Cutting
       GLFW::Window.hint(GLFW::HINT_DOUBLEBUFFER, true)
       GLFW::Window.hint(GLFW::HINT_RESIZABLE, true)
       GLFW::Window.hint(GLFW::HINT_VISIBLE, false)
+      GLFW::Window.hint(GLFW::HINT_SAMPLES, 16)
       # GLFW::Window.hint(GLFW::HINT_CONTEXT_VERSION_MAJOR, 3)
       # GLFW::Window.hint(GLFW::HINT_CONTEXT_VERSION_MINOR, 3)
       # GLFW::Window.hint(GLFW::HINT_OPENGL_PROFILE, GLFW::PROFILE_OPENGL_CORE)
@@ -81,9 +89,10 @@ module Cutting
       make_current
       GL.load_lib
 
+      GL.Enable(GL::MULTISAMPLE)
       GL.Viewport(0, 0, width, height)
-      GL.ClearColor(1.0, 1.0, 1.0, 1.0)
-      
+      GL.ClearColor(*context.background)
+
       GL.Clear(GL::COLOR_BUFFER_BIT)
       swap_buffers
       GL.Clear(GL::COLOR_BUFFER_BIT)

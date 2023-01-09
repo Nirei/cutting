@@ -13,6 +13,7 @@ GEM
     parallel (1.22.1)
     parser (3.2.0.0)
       ast (~> 2.4.1)
+    prettier_print (1.2.0)
     rainbow (3.1.1)
     rake (13.0.6)
     regexp_parser (2.6.1)
@@ -30,6 +31,8 @@ GEM
     rubocop-ast (1.24.1)
       parser (>= 3.1.1.0)
     ruby-progressbar (1.11.0)
+    syntax_tree (5.2.0)
+      prettier_print (>= 1.2.0)
     unicode-display_width (2.4.2)
 
 PLATFORMS
@@ -41,6 +44,7 @@ DEPENDENCIES
   opengl-bindings2 (~> 2.0)
   rake (~> 13.0)
   rubocop (~> 1.21)
+  syntax_tree (~> 5.2)
 
 BUNDLED WITH
    2.4.1
