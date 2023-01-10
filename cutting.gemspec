@@ -7,6 +7,7 @@ Gem::Specification.new do |spec|
   spec.version = Cutting::VERSION
   spec.authors = ["Nirei"]
   spec.email = ["nireiorange@gmx.com"]
+  spec.licenses = ['AGPL-3.0']
 
   spec.summary = "Processing API implementation on Ruby"
   spec.description =

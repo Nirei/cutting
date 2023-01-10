@@ -10,6 +10,9 @@ Under construction
 
 At the moment you can test it by changing `example.rb` and running `make irb`. This will load an `irb` session that loads up the example.
 
+## License
+
+Cutting is licensed under the terms of the [GNU Affero General Public License version 3](https://github.com/Nirei/cutting/blob/main/LICENSE).
 
 ## Contributing
 
