@@ -7,11 +7,10 @@ Gem::Specification.new do |spec|
   spec.version = Cutting::VERSION
   spec.authors = ["Nirei"]
   spec.email = ["nireiorange@gmx.com"]
-  spec.licenses = ['AGPL-3.0']
+  spec.licenses = ["AGPL-3.0"]
 
   spec.summary = "Processing API implementation on Ruby"
-  spec.description =
-    "Cutting implements Processing simple graphical API using Ruby"
+  spec.description = "Cutting implements Processing simple graphical API using Ruby"
   spec.homepage = "https://github.com/Nirei"
   spec.required_ruby_version = ">= 3.0.0"
 
@@ -24,12 +23,7 @@ Gem::Specification.new do |spec|
   spec.files =
     Dir.chdir(__dir__) do
       `git ls-files -z`.split("\x0")
-        .reject do |f|
-          (f == __FILE__) ||
-            f.match(
-              %r{\A(?:(?:bin|test|spec|features)/|\.(?:git|circleci)|appveyor)}
-            )
-        end
+        .reject { |f| (f == __FILE__) || f.match(%r{\A(?:(?:bin|test|spec|features)/|\.(?:git|circleci)|appveyor)}) }
     end
   spec.bindir = "exe"
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
