@@ -2,6 +2,9 @@
 
 module Cutting
   module Constants
+    ### Misc
+    TAU = Math::PI * 2
+
     ### Shape
     CENTER = :center
     RADIUS = :radius
@@ -13,6 +16,11 @@ module Cutting
     ROUND = :round
     MITER = :miter
     BEVEL = :bevel
+
+    #### Arc drawing modes
+    PIE = :pie
+    OPEN = :open
+    CHORD = :chord
 
     ### Color
     RGB = :rgb

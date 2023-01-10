@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
-require 'glfw'
-require 'opengl'
-require_relative 'context'
+require "glfw"
+require "opengl"
+require_relative "context"
 
 module Cutting
+  # Creates a Cutting window that will render whatever is described on its draw method
   class Window < GLFW::Window
     def initialize(width, height, title)
       @width = width

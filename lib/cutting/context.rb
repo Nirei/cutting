@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
-require_relative 'constants'
+require_relative "constants"
 
 module Cutting
+  # Stores context information for a Cutting::Window. This includes things like current background, color and stroke
+  # config among other things.
   class Context
     def initialize
       @ellipse_mode = Constants::CENTER
@@ -17,14 +19,8 @@ module Cutting
       @color_mode = Constants::RGB
     end
 
-    def normalize_color(
-      c1 = 0.0,
-      c2 = 0.0,
-      c3 = 0.0,
-      cA = max_alpha
-    )
-      [c1, c2, c3, cA].zip(color_channel_maximums)
-        .map { |channel, maximum| channel / maximum }
+    def normalize_color(c1 = 0.0, c2 = 0.0, c3 = 0.0, ca = max_alpha)
+      [c1, c2, c3, ca].zip(color_channel_maximums).map { |channel, maximum| channel / maximum }
     end
 
     def max_alpha

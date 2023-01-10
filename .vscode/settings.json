@@ -1,0 +1,8 @@
+{
+  "ruby.rubocop.onSave": true,
+  "editor.rulers": [
+    {
+      "column": 120
+    }
+  ]
+}
