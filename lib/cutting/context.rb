@@ -15,8 +15,15 @@ module Cutting
 
       @color_channel_maximums = [255.0, 255.0, 255.0, 255.0]
       @background = normalize_color(211.0, 211.0, 211.0)
+      @stroke = normalize_color(0.0, 0.0, 0.0)
       @fill = normalize_color(0.0, 0.0, 0.0)
       @color_mode = Constants::RGB
+
+      @frame_rate = 10
+      @frame_last_time = Time.now
+      @frame_count = 0
+      @width = 1024
+      @height = 768
     end
 
     def normalize_color(c1 = 0.0, c2 = 0.0, c3 = 0.0, ca = max_alpha)
@@ -40,5 +47,12 @@ module Cutting
     attr_accessor :color_mode
     attr_accessor :fill
     attr_accessor :stroke
+
+    # Environment
+    attr_accessor :frame_rate
+    attr_accessor :frame_last_time
+    attr_accessor :frame_count
+    attr_accessor :width
+    attr_accessor :height
   end
 end

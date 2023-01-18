@@ -3,22 +3,24 @@
 require "glfw"
 require "opengl"
 require_relative "context"
+require_relative "api"
 
 module Cutting
   # Creates a Cutting window that will render whatever is described on its draw method
   class Window < GLFW::Window
-    def initialize(width, height, title)
-      @width = width
-      @height = height
+    include Api
+    FPS_SMOOTHING = 0.2
+
+    def initialize(title)
       @context = Context.new
 
       GLFW.init
       init_hints
 
-      super(width, height, title, vsync: true)
+      super(context.width, context.height, title, vsync: true)
 
       # self.icon = Image.new('../glfw-icon.png')
-      init_config(width, height)
+      init_config
       init_callbacks
     end
 
@@ -29,13 +31,17 @@ module Cutting
       until closing?
         GL.MatrixMode(GL::PROJECTION)
         GL.LoadIdentity()
-        GL.Ortho(0.0, width, 0, height, 1.0, -1.0)
+        GL.Ortho(0.0, context.width, 0, context.height, 1.0, -1.0)
         GL.MatrixMode(GL::MODELVIEW)
 
         draw
 
         swap_buffers
         GLFW.poll_events
+        context.frame_count += 1
+        current_time = Time.now
+        context.frame_rate = update_frame_rate(current_time)
+        context.frame_last_time = current_time
       end
       GLFW.terminate
     end
@@ -43,34 +49,20 @@ module Cutting
     protected
 
     attr_reader :context
-    attr_reader :width
-    attr_reader :height
 
     def setup
+      # Override this to set up
     end
 
     def draw
-      # GL.Clear(GL::COLOR_BUFFER_BIT)
-      # GL.MatrixMode(GL::PROJECTION)
-      # GL.LoadIdentity()
-      # ratio = width.to_f / height.to_f
-      # GL.Ortho(-ratio, ratio, -1.0, 1.0, 1.0, -1.0)
-      # GL.MatrixMode(GL::MODELVIEW)
-
-      # GL.LoadIdentity()
-      # GL.Rotatef(GLFW.time * 50.0, 0.0, 0.0, 1.0)
-
-      # GL.Begin(GL::TRIANGLES)
-      # GL.Color3f(1.0, 0.0, 0.0)
-      # GL.Vertex3f(-0.6, -0.4, 0.0)
-      # GL.Color3f(0.0, 1.0, 0.0)
-      # GL.Vertex3f(0.6, -0.4, 0.0)
-      # GL.Color3f(0.0, 0.0, 1.0)
-      # GL.Vertex3f(0.0, 0.6, 0.0)
-      # GL.End()
+      # Override this to draw
     end
 
     private
+
+    def update_frame_rate(current_time)
+      (FPS_SMOOTHING / ((current_time - context.frame_last_time))) + ((1 - FPS_SMOOTHING) * context.frame_rate)
+    end
 
     def init_hints
       GLFW::Window.default_hints
@@ -86,17 +78,29 @@ module Cutting
       # GLFW::Window.hint(GLFW::HINT_OPENGL_FORWARD_COMPAT, true)
     end
 
-    def init_config(width, height)
+    def init_config
       make_current
       GL.load_lib
 
       GL.Enable(GL::MULTISAMPLE)
-      GL.Viewport(0, 0, width, height)
+
+      GL.Enable(GL::POINT_SMOOTH)
+      GL.Hint(GL::POINT_SMOOTH_HINT, GL::NICEST)
+      GL.Enable(GL::LINE_SMOOTH)
+      GL.Hint(GL::LINE_SMOOTH_HINT, GL::NICEST)
+      GL.Enable(GL::POLYGON_SMOOTH)
+      GL.Hint(GL::POLYGON_SMOOTH, GL::NICEST)
+
+      GL.Enable(GL::BLEND)
+      GL.BlendFunc(GL::SRC_ALPHA, GL::ONE_MINUS_SRC_ALPHA)
+
+      GL.Viewport(0, 0, context.width, context.height)
       GL.ClearColor(*context.background)
 
       GL.Clear(GL::COLOR_BUFFER_BIT)
       swap_buffers
       GL.Clear(GL::COLOR_BUFFER_BIT)
+
     end
 
     def init_callbacks
