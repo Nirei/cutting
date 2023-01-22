@@ -24,6 +24,8 @@ module Cutting
       @frame_count = 0
       @width = 1024
       @height = 768
+
+      @saved_frames = []
     end
 
     def normalize_color(c1 = 0.0, c2 = 0.0, c3 = 0.0, ca = max_alpha)
@@ -54,5 +56,8 @@ module Cutting
     attr_accessor :frame_count
     attr_accessor :width
     attr_accessor :height
+
+    # Output
+    attr_accessor :saved_frames
   end
 end

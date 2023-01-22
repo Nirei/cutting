@@ -38,7 +38,7 @@ module Cutting
 
       # The system variable that contains the number of frames displayed since the program started
       def frame_count
-        raise "not implemented"
+        context.frame_count
       end
 
       # The system variable that contains the approximate frame rate of the software as it executes

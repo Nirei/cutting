@@ -2,6 +2,7 @@
 
 require "glfw"
 require "opengl"
+require "oily_png"
 require_relative "context"
 require_relative "api"
 
@@ -43,6 +44,8 @@ module Cutting
         context.frame_rate = update_frame_rate(current_time)
         context.frame_last_time = current_time
       end
+    ensure
+      teardown
       GLFW.terminate
     end
 
@@ -108,6 +111,18 @@ module Cutting
         @height = height
         GL.Viewport(0, 0, width, height)
       end
+    end
+
+    def teardown
+      return if context.saved_frames.empty?
+
+      puts "Rendering #{context.saved_frames.size} frames..."
+      until context.saved_frames.empty?
+        filename, width, height, pixels = context.saved_frames.shift
+        image = ::ChunkyPNG::Image.from_rgb_stream(width, height, pixels)
+        image.flip_horizontally!.save(filename)
+      end
+      puts "Rendering finished"
     end
   end
 end
