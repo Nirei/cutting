@@ -33,7 +33,9 @@ class RainbowShapes < Cutting::Window
     point(100.0, 500.0)
     fill(Random.rand(255.0), Random.rand(255.0), Random.rand(255.0))
     triangle(300.0, 100.0, 300.0, 200.0, 400.0, 150.0)
-    # puts frame_rate
+
+    save_frame
+    exit(0)
   end
 end
 
