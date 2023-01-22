@@ -13,7 +13,7 @@ class RainbowShapes < Cutting::Window
 
   def draw
     clear
-    stroke_weight(10.0)
+    stroke_weight(2.0)
     stroke(0.0, 0.0, 0.0)
     5.times do |col|
       fill(Random.rand(255.0), Random.rand(255.0), Random.rand(255.0))
@@ -31,7 +31,9 @@ class RainbowShapes < Cutting::Window
     line(500.0, 500.0, 500.0, 1000.0)
     fill(Random.rand(255.0), Random.rand(255.0), Random.rand(255.0))
     point(100.0, 500.0)
-    puts frame_rate
+    fill(Random.rand(255.0), Random.rand(255.0), Random.rand(255.0))
+    triangle(300.0, 100.0, 300.0, 200.0, 400.0, 150.0)
+    # puts frame_rate
   end
 end
 

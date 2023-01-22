@@ -100,7 +100,6 @@ module Cutting
       GL.Clear(GL::COLOR_BUFFER_BIT)
       swap_buffers
       GL.Clear(GL::COLOR_BUFFER_BIT)
-
     end
 
     def init_callbacks

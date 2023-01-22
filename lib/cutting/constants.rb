@@ -3,7 +3,14 @@
 module Cutting
   module Constants
     ### Misc
-    TAU = Math::PI * 2
+    TAU = Math::PI * 2.0
+    TWO_PI = TAU
+    HALF_TAU = Math::PI
+    PI = HALF_TAU
+    QUARTER_TAU = Math::PI / 2.0
+    HALF_PI = QUARTER_TAU
+    EIGTH_TAU = Math::PI / 4.0
+    QUARTER_PI = EIGTH_TAU
 
     ### Shape
     CENTER = :center

@@ -55,11 +55,17 @@ module Cutting
         end
 
         # Draws a line (a direct path between two points) to the screen
-        def line(x1, y1, x2, y2)
-          GL.Begin(GL::LINES)
+        def line(xa, ya, xb, yb)
+          distance = context.stroke_weight / 2.0
+          x1, y1, x2, y2 = parallel(xa, ya, xb, yb, distance)
+          x3, y3, x4, y4 = parallel(xb, yb, xa, ya, distance)
+
+          GL.Begin(GL::QUADS)
           GL.Color4f(*context.stroke)
           GL.Vertex3f(x1, y1, 0.0)
           GL.Vertex3f(x2, y2, 0.0)
+          GL.Vertex3f(x3, y3, 0.0)
+          GL.Vertex3f(x4, y4, 0.0)
           GL.End
         end
 
@@ -116,12 +122,18 @@ module Cutting
 
         # A triangle is a plane created by connecting three points
         def triangle(x1, y1, x2, y2, x3, y3)
+          vertices = [[x1, y1], [x2, y2], [x3, y3]]
+
           # Fill
-          GL.Begin(GL::TRIANGLES)
+          GL.Begin(GL::TRIANGLE_FAN)
           GL.Color4f(*context.fill)
-          GL.Vertex3f(x1, y1, 0.0)
-          GL.Vertex3f(x2, y2, 0.0)
-          GL.Vertex3f(x3, y3, 0.0)
+          vertices.each { |vertex| GL.Vertex3f(*vertex, 0.0) }
+          GL.End
+
+          # Contour
+          GL.Begin(GL::TRIANGLE_STRIP)
+          set_stroke
+          outline_vertices(context.stroke_weight, *vertices).each { |vertex| GL.Vertex3f(*vertex, 0.0) }
           GL.End
         end
 

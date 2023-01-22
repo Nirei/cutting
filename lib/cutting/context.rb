@@ -14,7 +14,7 @@ module Cutting
       @stroke_weight = 4
 
       @color_channel_maximums = [255.0, 255.0, 255.0, 255.0]
-      @background = normalize_color(211.0, 211.0, 211.0)
+      @background = normalize_color(204.0, 204.0, 204.0)
       @stroke = normalize_color(0.0, 0.0, 0.0)
       @fill = normalize_color(0.0, 0.0, 0.0)
       @color_mode = Constants::RGB
