@@ -5,7 +5,6 @@ require "oily_png"
 require "opengl"
 require_relative "context"
 require_relative "api"
-require_relative "thread_pool"
 
 module Cutting
   # Creates a Cutting window that will render whatever is described on its draw method
