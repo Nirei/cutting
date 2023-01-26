@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 require "glfw"
-require "opengl"
 require "oily_png"
+require "opengl"
 require_relative "context"
 require_relative "api"
+require_relative "thread_pool"
 
 module Cutting
   # Creates a Cutting window that will render whatever is described on its draw method
@@ -116,13 +117,18 @@ module Cutting
     def teardown
       return if context.saved_frames.empty?
 
-      puts "Rendering #{context.saved_frames.size} frames..."
-      until context.saved_frames.empty?
+      frame_amount = context.saved_frames.size
+      puts "Rendering #{frame_amount} frames..."
+      start_time = Time.now
+
+      (0...frame_amount).each do
         filename, width, height, pixels = context.saved_frames.shift
         image = ::ChunkyPNG::Image.from_rgb_stream(width, height, pixels)
         image.flip_horizontally!.save(filename)
       end
-      puts "Rendering finished"
+
+      end_time = Time.now
+      puts "Rendering finished in #{end_time - start_time} (#{(end_time - start_time) / frame_amount} fps)"
     end
   end
 end
