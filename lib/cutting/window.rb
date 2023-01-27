@@ -32,7 +32,7 @@ module Cutting
       until closing?
         GL.MatrixMode(GL::PROJECTION)
         GL.LoadIdentity()
-        GL.Ortho(0.0, context.width, 0, context.height, 1.0, -1.0)
+        GL.Ortho(0.0, context.width, context.height, 0.0, 1.0, -1.0)
         GL.MatrixMode(GL::MODELVIEW)
 
         draw
@@ -107,9 +107,10 @@ module Cutting
 
     def init_callbacks
       on_framebuffer_resize do |width, height|
-        @width = width
-        @height = height
-        GL.Viewport(0, 0, width, height)
+        context.width = width
+        contex.height = height
+        GL.Ortho(0.0, context.width, context.height, 0.0, 1.0, -1.0)
+        GL.Viewport(0, height, width, 0)
       end
     end
 
@@ -122,8 +123,17 @@ module Cutting
 
       (0...frame_amount).each do
         filename, width, height, pixels = context.saved_frames.shift
-        image = ::ChunkyPNG::Image.from_rgb_stream(width, height, pixels)
-        image.flip_horizontally!.save(filename)
+
+        columns = width * 3
+        size = height * columns
+        last_row = size - columns
+        flipped = String.new(capacity: size)
+        (0...size).step(columns).reverse_each do |start|
+          flipped[last_row - start, columns] = pixels[start, columns]
+        end
+
+        image = ::ChunkyPNG::Image.from_rgb_stream(width, height, flipped)
+        image.save(filename)
       end
 
       end_time = Time.now
