@@ -21,3 +21,10 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/Nirei/
 ## Code of Conduct
 
 Everyone interacting in the Cutting project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/Nirei/cutting/blob/main/CODE_OF_CONDUCT.md).
+
+## Examples
+
+The following is a little gallery of the examples that come with Cutting
+
+#### Intersections
+![Intersections](docs/intersections.webp "Intersections")
