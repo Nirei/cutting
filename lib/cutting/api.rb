@@ -3,6 +3,7 @@
 require_relative "api/shape"
 require_relative "api/color"
 require_relative "api/environment"
+require_relative "api/input"
 require_relative "api/output"
 
 module Cutting
@@ -11,6 +12,7 @@ module Cutting
     include Api::Shape
     include Api::Color
     include Api::Environment
+    include Api::Input
     include Api::Output
   end
 end

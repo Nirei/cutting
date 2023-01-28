@@ -5,7 +5,7 @@ require_relative "../../constants"
 module Cutting
   module Api
     module Output
-      # Used to output image filess
+      # Used to output image files
       module Image
         # Saves an image from the display window
         def save(filename)

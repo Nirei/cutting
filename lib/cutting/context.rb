@@ -19,8 +19,10 @@ module Cutting
       @fill = normalize_color(0.0, 0.0, 0.0)
       @color_mode = Constants::RGB
 
+      @start_time = Time.new
+
       @frame_rate = 10
-      @frame_last_time = Time.now
+      @frame_last_time = Time.new
       @frame_count = 0
       @width = 1024
       @height = 768
@@ -57,6 +59,9 @@ module Cutting
     attr_accessor :width
     attr_accessor :height
 
+    # Input
+    attr_reader :start_time
+    
     # Output
     attr_accessor :saved_frames
   end
