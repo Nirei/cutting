@@ -19,7 +19,7 @@ module Cutting
 
         # Returns the number of milliseconds (thousandths of a second) since starting an applet
         def millis
-          (Time.new.nsec * 1_000_000) - context.start_time
+          (Time.new - context.start_time) * 1000
         end
 
         # Returns the current minute as a value from 0 - 59

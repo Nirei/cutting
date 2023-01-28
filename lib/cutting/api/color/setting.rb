@@ -20,7 +20,7 @@ module Cutting
           GL.Clear(GL::COLOR_BUFFER_BIT)
         end
 
-        VALID_COLOR_MODES = [Constants::RGB, Constants::HSB].freeze
+        VALID_COLOR_MODES = [RGB, HSB].freeze
 
         # Changes the way Processing interprets color data
         def color_mode(mode, max1, max2 = nil, max3 = nil, max_alpha = nil)

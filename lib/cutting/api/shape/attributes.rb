@@ -7,36 +7,36 @@ module Cutting
     module Shape
       # Allows setting shape-drawing attributes
       module Attributes
-        VALID_SHAPE_MODES = [Constants::CENTER, Constants::RADIUS, Constants::CORNER, Constants::CORNERS].freeze
+        VALID_SHAPE_MODES = [CENTER, RADIUS, CORNER, CORNERS].freeze
 
         # The origin of the ellipse is modified by the `ellipse_mode()` function
         def ellipse_mode(mode)
-          raise ArgumentError, "unknown ellipse mode #{mode}" unless VALID_SHAPE_MODES.contain(mode)
+          raise ArgumentError, "unknown ellipse mode #{mode}" unless VALID_SHAPE_MODES.include?(mode)
 
           context.ellipse_mode = mode
         end
 
         # Modifies the location from which rectangles draw
         def rect_mode(mode)
-          raise ArgumentError, "unknown rect mode #{mode}" unless VALID_SHAPE_MODES.contain(mode)
+          raise ArgumentError, "unknown rect mode #{mode}" unless VALID_SHAPE_MODES.include?(mode)
 
           context.rect_mode = mode
         end
 
-        VALID_STROKE_CAPS = [Constants::SQUARE, Constants::PROJECT, Constants::ROUND].freeze
+        VALID_STROKE_CAPS = [SQUARE, PROJECT, ROUND].freeze
 
         # Sets the style for rendering line endings
         def stroke_cap(cap)
-          raise ArgumentError, "unknown stroke cap #{cap}" unless VALID_STROKE_CAPS.contain(cap)
+          raise ArgumentError, "unknown stroke cap #{cap}" unless VALID_STROKE_CAPS.include?(cap)
 
           context.stroke_cap = cap
         end
 
-        VALID_STROKE_JOINS = [Constants::MITER, Constants::BEVEL, Constants::ROUND].freeze
+        VALID_STROKE_JOINS = [MITER, BEVEL, ROUND].freeze
 
         # Sets the style of the joints which connect line segments
         def stroke_join(join)
-          raise ArgumentError, "unknown stroke join #{join}" unless VALID_STROKE_CAPS.contain(join)
+          raise ArgumentError, "unknown stroke join #{join}" unless VALID_STROKE_CAPS.include?(join)
 
           context.stroke_join = join
         end

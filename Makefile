@@ -1,16 +1,24 @@
+SHELL := /bin/bash
 VERSION := '0.1.0'
 NAME := cutting
 
 test:
 	rspec
 
-rainbows: gem
-	gem install ${NAME}-${VERSION}.gem
+animation:
+	./animate.sh
+
+rainbows: install
 	irb examples/rainbow_shapes.rb
 
-irb: gem
-	gem install ${NAME}-${VERSION}.gem
+intersections: install
+	irb examples/intersections.rb
+
+irb: install
 	irb -r '${NAME}'
+
+install: gem
+	gem install ${NAME}-${VERSION}.gem
 
 gem: lib/*.rb ${NAME}.gemspec
 	gem build ${NAME}.gemspec

@@ -9,14 +9,14 @@ module Cutting
       # Contains 2D primitives like circles, rects...
       module Primitives2D
         # Draws an arc in the display window
-        def arc(x, y, width, height, start, stop, _mode = Constants::OPEN)
+        def arc(x, y, width, height, start, stop, _mode = OPEN)
           subdivision = 90
-          theta = Constants::TAU / subdivision
+          theta = TAU / subdivision
           cos = Math.cos(theta)
           sin = Math.sin(theta)
 
-          start_index = (subdivision * start) / Constants::TAU
-          stop_index = (subdivision * stop) / Constants::TAU
+          start_index = (subdivision * start) / TAU
+          stop_index = (subdivision * stop) / TAU
 
           vertices =
             arc_vertices(
@@ -51,7 +51,7 @@ module Cutting
 
         # Draws an ellipse (oval) in the display window
         def ellipse(x, y, width, height)
-          arc(x, y, width, height, 0.0, Constants::TAU)
+          arc(x, y, width, height, 0.0, TAU)
         end
 
         # Draws a line (a direct path between two points) to the screen
@@ -96,15 +96,15 @@ module Cutting
         def rect(x, y, width, height)
           vertices =
             case context.rect_mode
-            when Constants::CORNER
+            when CORNER
               [x, y, x + width, y, x + width, y + height, x, y + height]
-            when Constants::CORNERS
+            when CORNERS
               [x, y, width, y, width, height, x, height]
-            when Constants::RADIUS
+            when RADIUS
               xradius = width
               yradius = height
               [x - xradius, y - yradius, x + xradius, y - yradius, x + xradius, y + yradius, x - xradius, y + yradius]
-            when Constants::CENTER
+            when CENTER
               xradius = width / 2
               yradius = height / 2
               [x - xradius, y - yradius, x + xradius, y - yradius, x + xradius, y + yradius, x - xradius, y + yradius]

@@ -93,8 +93,9 @@ module Cutting
       end
 
       # Defines the dimension of the display window in units of pixels
-      def size
-        raise "not implemented"
+      def size(width, height)
+        context.width = width
+        context.height = height
       end
 
       # Draws all geometry with smooth (anti-aliased) edges

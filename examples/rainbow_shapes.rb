@@ -34,8 +34,8 @@ class RainbowShapes < Cutting::Window
     fill(Random.rand(255.0), Random.rand(255.0), Random.rand(255.0))
     triangle(300.0, 100.0, 300.0, 200.0, 400.0, 150.0)
 
-    save_frame
-    exit 0 if frame_count == 32
+    #save_frame
+    #exit 0 if frame_count == 32
   end
 end
 

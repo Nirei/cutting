@@ -18,6 +18,7 @@ module Cutting
       GLFW.init
       init_hints
 
+      setup
       super(context.width, context.height, title, vsync: true)
 
       # self.icon = Image.new('../glfw-icon.png')
@@ -26,8 +27,6 @@ module Cutting
     end
 
     def main
-      setup
-
       show
       until closing?
         GL.MatrixMode(GL::PROJECTION)
